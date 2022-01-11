@@ -67,9 +67,6 @@ function paragraphForTextContent(
 ): Paragraph {
   const text = textContent.text.trim();
 
-  ctx.fillStyle = textContent.color;
-  applyFont(ctx, textContent.font);
-
   let lineMetrics: Array<LineMetric> = [];
 
   function layout(measure: number) {
@@ -85,6 +82,8 @@ function paragraphForTextContent(
     const utf8Encoder = new TextEncoder();
 
     lineMetrics = toArray(function* () {
+      applyFont(ctx, textContent.font);
+
       let lineNumber = 0;
       while (startUTF16 < endUTF16) {
         let substring = text.slice(startUTF16, endUTF16);
@@ -111,8 +110,9 @@ function paragraphForTextContent(
           : textContent.multilineTextAlignment === "center"
           ? (measure - metrics.width) / 2
           : 0;
+        // const left = 0;
 
-        console.log("LINE OF TEXT", { startUTF8, startUTF16, endUTF16 });
+        console.log("LINE OF TEXT", { startUTF8, startUTF16, endUTF16 }, metrics, { measure }, substring);
         yield {
           lineNumber,
           startIndex: startUTF8,
@@ -122,6 +122,7 @@ function paragraphForTextContent(
           descent: metrics.fontBoundingBoxDescent,
           height: Math.round(
             metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent,
+            // metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent,
           ),
           width: metrics.width,
           left,
