@@ -16,6 +16,8 @@ import {
   Point2D,
   TextAlignment,
 } from "./base";
+import { importCanvas } from "./deps";
+import { decodeImageData } from "./imageDecoder";
 
 export function VStack(
   maxWidth = Infinity,
@@ -105,11 +107,19 @@ export async function RemoteImage(source: {
 }): Promise<ContentImageItem> {
   // TODO: handle errors.
   const imageBytes = await fetch(source.url).then((res) => res.arrayBuffer());
-  // const
+  // const decodedImage = await decodeImageData(imageBytes);
+
+  const { createCanvas, ImageData, Image } = await importCanvas();
+  // const imageData = new ImageData(decodedImage.bitmap.data, decodedImage.bitmap.width, decodedImage.bitmap.height);
+  // const canvas = createCanvas(decodedImage.bitmap.width, decodedImage.bitmap.height);
+  // const ctx = canvas.getContext("2d");
+  // ctx.putImageData(imageData, 0, 0);
+  const image = new Image();
+  image.src = new Buffer(imageBytes);
 
   return Object.freeze({
     type: "image",
-    image: null,
+    image,
     grow: source.grow ?? false,
     maxWidth: source.maxWidth,
     rounded: source.rounded ?? false,
