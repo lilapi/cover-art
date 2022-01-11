@@ -17,7 +17,6 @@ import {
   TextAlignment,
 } from "./base";
 import { importCanvas } from "./deps";
-import { decodeImageData } from "./imageDecoder";
 
 export function VStack(
   maxWidth = Infinity,
