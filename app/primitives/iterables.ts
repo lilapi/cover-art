@@ -60,6 +60,15 @@ export function sumBy<A>(
   }).then(sum, 0).result(iterable);
 }
 
+export function maxBy<A>(
+  iterable: Iterable<A>,
+  mapper: (a: A) => number,
+): number {
+  return bitsy(function* (a: A) {
+    yield mapper(a);
+  }).then(max, 0).result(iterable);
+}
+
 export function groupByHighestToLowest<A>(source: Iterable<A>, mapper: (a: A) => number): Map<number, Array<A>> {
   // Get all possible group keys, and sort them from highest to lowest.
   const sortedKeys = Array.from(source, mapper).sort((a, b) => b - a);

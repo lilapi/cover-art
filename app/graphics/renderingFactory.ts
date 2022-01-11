@@ -3,7 +3,7 @@ import type { Path2D, SKRSContext2D } from "@napi-rs/canvas";
 import { MemoizedCalculator } from "../primitives/caching";
 import { ContentTextItem, FontDefinition } from "./base";
 import { importCanvas } from "./deps";
-import { sumBy, toArray } from "~/primitives/iterables";
+import { maxBy, sumBy, toArray } from "~/primitives/iterables";
 
 export const COLORS = Object.freeze({
   black: Float32Array.of(0, 0, 0, 1),
@@ -148,7 +148,7 @@ function paragraphForTextContent(
       return lineMetrics;
     },
     getLongestLine() {
-      return lineMetrics[0]?.width ?? 0;
+      return maxBy(lineMetrics, m => m.width);
     },
     getHeight() {
       return sumBy(lineMetrics, (m) => m.height);
