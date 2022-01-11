@@ -107,13 +107,8 @@ export async function RemoteImage(source: {
 }): Promise<ContentImageItem> {
   // TODO: handle errors.
   const imageBytes = await fetch(source.url).then((res) => res.arrayBuffer());
-  // const decodedImage = await decodeImageData(imageBytes);
 
-  const { createCanvas, ImageData, Image } = await importCanvas();
-  // const imageData = new ImageData(decodedImage.bitmap.data, decodedImage.bitmap.width, decodedImage.bitmap.height);
-  // const canvas = createCanvas(decodedImage.bitmap.width, decodedImage.bitmap.height);
-  // const ctx = canvas.getContext("2d");
-  // ctx.putImageData(imageData, 0, 0);
+  const { Image } = await importCanvas();
   const image = new Image();
   image.src = new Buffer(imageBytes);
 
