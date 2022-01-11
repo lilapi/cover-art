@@ -533,8 +533,9 @@ function layoutTextLines(
   const utf8Decoder = new TextDecoder();
   // TODO: use paragraph.getShapedLines() instead, might kern better.
   for (const lineMetrics of paragraph.getLineMetrics()) {
-    console.log("LINE METRICS (n)", lineMetrics.left, measure, lineMetrics.width, [lineMetrics.startIndex, lineMetrics.endIndex, lineMetrics.endExcludingWhitespaces]);
+    console.log("LINE METRICS", `(${lineMetrics.lineNumber})`, lineMetrics.left, measure, [lineMetrics.width, lineMetrics.height], [lineMetrics.startIndex, lineMetrics.endIndex, lineMetrics.endExcludingWhitespaces]);
     const baselineY = y + (lineMetrics.lineNumber + 1) * lineMetrics.height;
+    console.log("baselineY", baselineY);
     lines.push(Object.freeze({
       // text: text.slice(lineMetrics.startIndex, lineMetrics.endIndex + 1),
       text: utf8Decoder.decode(utf8Encoded.slice(lineMetrics.startIndex, lineMetrics.endIndex)),

@@ -13,7 +13,7 @@ function resPNGImage(
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const url = new URL(request.url);
+  const url = new URL(request.url, "https://example.org");
   const params = readParams(url.searchParams)
   const options = await overlayTemplate(params);
   const pngData = await renderContent(options);

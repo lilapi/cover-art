@@ -3,7 +3,7 @@ import type { Path2D, SKRSContext2D } from "@napi-rs/canvas";
 import { MemoizedCalculator } from "../primitives/caching";
 import { ContentTextItem, FontDefinition } from "./base";
 import { importCanvas } from "./deps";
-import { toArray } from "~/primitives/iterables";
+import { sumBy, toArray } from "~/primitives/iterables";
 
 export const COLORS = Object.freeze({
   black: Float32Array.of(0, 0, 0, 1),
@@ -65,38 +65,94 @@ function paragraphForTextContent(
   textContent: ContentTextItem,
   ctx: SKRSContext2D,
 ): Paragraph {
-  console.log("paragraphForTextContent", textContent);
-  const { text, font } = textContent;
-  ctx.fillStyle = textContent.color;
-  applyFont(ctx, font);
+  const text = textContent.text.trim();
 
-  const lineMetrics = toArray(function* () {
-    console.log("measure text", text);
-    const metrics = ctx.measureText(text);
-    yield {
-      lineNumber: 0,
-      startIndex: 0,
-      endIndex: text.length,
-      ascent: metrics.fontBoundingBoxAscent,
-      descent: metrics.fontBoundingBoxDescent,
-      height: Math.round(metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent),
-      width: metrics.width,
-      left: 0,
-      baseline: metrics.fontBoundingBoxAscent // FIXME
-    } as LineMetric;
-  });
+  ctx.fillStyle = textContent.color;
+  applyFont(ctx, textContent.font);
+
+  let lineMetrics: Array<LineMetric> = [];
+
+  function layout(measure: number) {
+    if (measure < 1) {
+      lineMetrics = [];
+      return;
+    }
+
+    // TODO: handle wider characters like emoji.
+    let startUTF16 = 0;
+    let endUTF16 = text.length;
+    let startUTF8 = 0;
+    const utf8Encoder = new TextEncoder();
+
+    lineMetrics = toArray(function* () {
+      let lineNumber = 0;
+      while (startUTF16 < endUTF16) {
+        let substring = text.slice(startUTF16, endUTF16);
+        while (substring.startsWith(" ")) {
+          startUTF16++;
+          startUTF8++;
+          substring = text.slice(startUTF16, endUTF16);
+        }
+        const metrics = ctx.measureText(substring);
+        console.log("measure text", measure, metrics.width, substring);
+        if (metrics.width > measure) {
+          if (substring.includes(" ")) {
+            endUTF16 = substring.match(/[ ](\S)+$/)?.index ?? endUTF16 - 1;
+          } else {
+            endUTF16--;
+          }
+          continue;
+        }
+
+        const utf8Encoded = utf8Encoder.encode(substring);
+
+        const left = textContent.multilineTextAlignment === "trailing"
+          ? measure - metrics.width
+          : textContent.multilineTextAlignment === "center"
+          ? (measure - metrics.width) / 2
+          : 0;
+
+        console.log("LINE OF TEXT", { startUTF8, startUTF16, endUTF16 });
+        yield {
+          lineNumber,
+          startIndex: startUTF8,
+          endIndex: startUTF8 + utf8Encoded.length,
+          endExcludingWhitespaces: startUTF8 + utf8Encoded.length,
+          ascent: metrics.fontBoundingBoxAscent,
+          descent: metrics.fontBoundingBoxDescent,
+          height: Math.round(
+            metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent,
+          ),
+          width: metrics.width,
+          left,
+          baseline: metrics.fontBoundingBoxAscent +
+            metrics.fontBoundingBoxDescent, // FIXME
+        } as LineMetric;
+
+        lineNumber += 1;
+        startUTF16 = endUTF16;
+        endUTF16 = text.length;
+        console.log("LINE OF TEXT yielded", {
+          startUTF8,
+          startUTF16,
+          endUTF16,
+        });
+        startUTF8 += utf8Encoded.length;
+      }
+    });
+  }
 
   return Object.freeze({
+    layout,
     getLineMetrics() {
       return lineMetrics;
     },
     getLongestLine() {
-      return lineMetrics[0].width;
+      return lineMetrics[0]?.width ?? 0;
     },
     getHeight() {
-      return lineMetrics[0].height;
+      return sumBy(lineMetrics, (m) => m.height);
     },
-    layout() {}
   });
 }
 
@@ -114,7 +170,8 @@ export function makeRenderingFactory(
   }
 
   return Object.freeze({
-    paragraphForTextContent: (textContent) => textContentParagraphCache.get(textContent),
+    paragraphForTextContent: (textContent) =>
+      textContentParagraphCache.get(textContent),
     makePath: (source) => new canvas.Path2D(source),
     clear,
   });
