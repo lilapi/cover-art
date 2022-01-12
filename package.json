@@ -4,9 +4,11 @@
   "description": "",
   "license": "",
   "scripts": {
-    "build": "remix build",
+    "build": "remix build && BUILD_API=1 remix build",
     "dev": "remix dev",
-    "postinstall": "remix setup node"
+    "postinstall": "remix setup node",
+    "deploy": "fly deploy --remote-only",
+    "start": "remix-serve build"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.19",

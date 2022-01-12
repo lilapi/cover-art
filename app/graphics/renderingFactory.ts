@@ -76,6 +76,7 @@ function paragraphForTextContent(
     }
 
     // TODO: handle wider characters like emoji.
+    // FIXME: breaks on: http://localhost:3000/1/plain?t1=Your+logo+here&t1-size=32&t1-color=%23447aa6&t2=Generic+white+t-shirt+%E2%80%94+20%25+summer+sale&t2-size=36&t2-color=%2326618b&w=800&h=420&bg-color=%23f6f6f6&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1521572163474-6864f9cf17ab%3Fixlib%3Drb-1.2.1%26ixid%3DMnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8%26auto%3Dformat%26fit%3Dcrop%26w%3D800%26q%3D80&img-pos=left
     let startUTF16 = 0;
     let endUTF16 = text.length;
     let startUTF8 = 0;
