@@ -88,6 +88,7 @@ function paragraphForTextContent(
       let lineNumber = 0;
       while (startUTF16 < endUTF16) {
         let substring = text.slice(startUTF16, endUTF16);
+        // Skip leading whitespace.
         while (substring.startsWith(" ")) {
           startUTF16++;
           startUTF8++;
@@ -97,10 +98,14 @@ function paragraphForTextContent(
         console.log("measure text", measure, metrics.width, substring);
         if (metrics.width > measure) {
           if (substring.includes(" ")) {
-            endUTF16 = substring.match(/[ ](\S)+$/)?.index ?? endUTF16 - 1;
-          } else {
-            endUTF16--;
+            const lastWhitespaceMatch = substring.match(/[ ](\S)+$/);
+            if (lastWhitespaceMatch?.index != null) {
+              endUTF16 = lastWhitespaceMatch.index + startUTF16;
+              continue;
+            }
           }
+
+          endUTF16--;
           continue;
         }
 
