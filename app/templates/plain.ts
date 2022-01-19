@@ -38,9 +38,11 @@ export async function plainTemplate(
   }
 
   let logoImageURL = query.string("logo");
-  const logoImagePosition = query.string("logo-pos", "topLeading");
+  const logoImagePosition = query.string("logo-pos", "topLeft");
   if (logoImageURL === "test1") {
     logoImageURL = "https://github.com/littleeagleio.png";
+  } else if (logoImageURL === "test2") {
+    logoImageURL = "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
   }
 
   const heroImageContent = heroImageURL != null
@@ -94,16 +96,16 @@ export async function plainTemplate(
         ? [VStack(undefined, [
           Spacer(10),
           Spacer(
-            logoImagePosition === "bottomLeading" ||
-              logoImagePosition === "bottomTrailing"
+            logoImagePosition === "bottomLeft" ||
+              logoImagePosition === "bottomRight"
               ? undefined
               : 0,
           ),
           HStack({}, [
             Spacer(10),
             Spacer(
-              logoImagePosition === "topTrailing" ||
-                logoImagePosition === "bottomTrailing"
+              logoImagePosition === "topRight" ||
+                logoImagePosition === "bottomRight"
                 ? undefined
                 : 0,
             ),
