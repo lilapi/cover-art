@@ -103,9 +103,12 @@ export async function RemoteImage(source: {
   maxWidth: number;
   maxHeight?: number;
   rounded?: boolean;
-}): Promise<ContentImageItem> {
+}): Promise<ContentImageItem | null> {
   // TODO: handle errors.
-  const imageBytes = await fetch(source.url).then((res) => res.arrayBuffer());
+  const imageBytes = await fetch(source.url).then((res) => res.ok ? res.arrayBuffer() : null);
+  if (imageBytes === null) {
+    return null;
+  }
 
   const { Image } = await importCanvas();
   const image = new Image();
