@@ -429,7 +429,7 @@ function* layoutContentItemsUsing(
           alignment: localAlignment,
           measure: rowMeasure,
           x: currentX + valueForInset(item.inset, 'l'),
-          minY: currentY,
+          minY: currentY + valueForInset(item.inset, 't'),
           maxY,
           factory
         }));
