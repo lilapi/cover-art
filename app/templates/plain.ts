@@ -101,7 +101,7 @@ export async function plainTemplate(
               ? undefined
               : 0,
           ),
-          HStack({}, [
+          HStack({ alignment: "topLeading" }, [
             Spacer(10),
             Spacer(
               logoImagePosition === "topRight" ||
