@@ -31,7 +31,7 @@ function calculateChildSizesX(items: Array<ContentItem>, proposedSize: readonly 
   const flexibility = Array.from(items.entries(), ([index, item]) => {
     const lower = calculateSizeForContent(item, tuple(0, proposedSize[1]), context, 'horizontal')[0];
     const upper = calculateSizeForContent(item, tuple(1e15, proposedSize[1]), context, 'horizontal')[0];
-    const priority  = 'grow' in item ? 1 : item.type === 'spacer' ? -1 : 0;
+    const priority  = 'grow' in item ? 1 : item.type === 'spacer' ? typeof item.dimension === 'number' ? 0 : -1 : 0;
     return Object.freeze({ index, item, lower, upper, flex: upper - lower, priority });
   }).sort((a, b) => a.flex - b.flex);
 

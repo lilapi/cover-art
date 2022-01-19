@@ -73,7 +73,7 @@ export function groupByHighestToLowest<A>(source: Iterable<A>, mapper: (a: A) =>
   // Get all possible group keys, and sort them from highest to lowest.
   const sortedKeys = Array.from(source, mapper).sort((a, b) => b - a);
   // Create the groups with arrays for each key ahead of time. We do this because we want the groups in order, from lowest to highest.
-  // And map are sorted by insertion order.
+  // And Maps are sorted by insertion order.
   const groups = new Map<number, Array<A>>(sortedKeys.map(key => [key, []]));
 
   for (const item of source) {
