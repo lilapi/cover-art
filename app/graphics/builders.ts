@@ -36,7 +36,7 @@ export function HStack(
   return Object.freeze({
     type: "hstack",
     items: toArray(items),
-    alignment: options.alignment ?? 'topLeading',
+    alignment: options.alignment,
     maxWidth: options.maxWidth ?? Infinity,
     inset: options.inset ?? 0,
   });
