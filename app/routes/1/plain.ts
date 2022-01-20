@@ -8,7 +8,8 @@ function resPNGImage(
   status = 200,
   headers = new Headers()
 ) {
-  headers.set("content-type", "image/png");
+  headers.set("Content-Type", "image/png");
+  headers.set("Cache-Control", "maxage=10800");
   return new Response(bytes, { status, headers });
 }
 
