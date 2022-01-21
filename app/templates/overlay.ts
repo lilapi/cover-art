@@ -23,9 +23,11 @@ export async function overlayTemplate(
   const {
     line1,
     line1Size,
+    line1Weight,
     line1Color,
     line2,
     line2Size,
+    line2Weight,
     line2Color,
   } = readText(query);
   const { logoImageURL, logoImagePosition } = readLogo(query);
@@ -96,7 +98,7 @@ export async function overlayTemplate(
           Spacer(),
           Text(
             line1,
-            interFontOfSize(sizeScaleFactor * line1Size, 700),
+            interFontOfSize(sizeScaleFactor * line1Size, line1Weight),
             line1Color,
             "center",
           ),
@@ -105,7 +107,7 @@ export async function overlayTemplate(
               Spacer(gap),
               Text(
                 line2,
-                interFontOfSize(sizeScaleFactor * line2Size, 700),
+                interFontOfSize(sizeScaleFactor * line2Size, line2Weight),
                 line2Color,
                 "center",
               ),

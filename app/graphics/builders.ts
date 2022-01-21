@@ -82,12 +82,12 @@ export function Rectangle(
 
 export function interFontOfSize(
   size: number,
-  weight: 400 | 700,
+  weight: number,
 ): FontDefinition {
   return Object.freeze({
     face: "Inter",
     size,
-    weight,
+    weight: weight === 400 ? weight : 700,
   });
 }
 

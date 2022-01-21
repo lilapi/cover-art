@@ -17,18 +17,22 @@ export function readBackground(query: ParamsReader, fallback = "black") {
 
 export function readText(query: ParamsReader) {
   const line1 = query.string("t1", "");
-  const line1Size = query.int("t1-size", 36); // Should it be called t1-px instead?
+  const line1Size = query.int("t1-size", 36);
+  const line1Weight = query.int("t1-weight", 700);
   const line1Color = query.string("t1-color", "white");
   const line2 = query.string("t2", "");
   const line2Size = query.int("t2-size", 24);
+  const line2Weight = query.int("t2-weight", 700);
   const line2Color = query.string("t2-color", "white");
 
   return Object.freeze({
     line1,
     line1Size,
+    line1Weight,
     line1Color,
     line2,
     line2Size,
+    line2Weight,
     line2Color,
   });
 }

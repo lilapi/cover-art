@@ -20,9 +20,11 @@ export async function plainTemplate(
   const {
     line1,
     line1Size,
+    line1Weight,
     line1Color,
     line2,
     line2Size,
+    line2Weight,
     line2Color,
   } = readText(query);
   const { logoImageURL, logoImagePosition } = readLogo(query);
@@ -72,12 +74,12 @@ export async function plainTemplate(
         VStack({ alignment: "leading" }, [
           Text(
             line1,
-            interFontOfSize(sizeScaleFactor * line1Size, 700),
+            interFontOfSize(sizeScaleFactor * line1Size, line1Weight),
             line1Color,
           ),
           Text(
             line2,
-            interFontOfSize(sizeScaleFactor * line2Size, 700),
+            interFontOfSize(sizeScaleFactor * line2Size, line2Weight),
             line2Color,
           ),
         ]),
