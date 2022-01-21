@@ -1,15 +1,15 @@
 import { toArray } from "../primitives/iterables";
 import {
   Alignment,
+  ContentHStackItem,
   ContentImageItem,
   ContentItem,
   ContentLinearGradientItem,
   ContentRectangleItem,
-  ContentHStackItem,
   ContentShapeItem,
   ContentSpacerItem,
-  ContentVStackItem,
   ContentTextItem,
+  ContentVStackItem,
   ContentZStackItem,
   FontDefinition,
   InsetDefinition,
@@ -19,18 +19,23 @@ import {
 import { importCanvas } from "./deps";
 
 export function VStack(
-  maxWidth = Infinity,
+  options: { maxWidth?: number; alignment?: Alignment } = {},
   items: Iterable<ContentItem> | (() => Iterable<ContentItem>),
 ): ContentVStackItem {
   return Object.freeze({
     type: "vstack",
     items: toArray(items),
-    maxWidth,
+    alignment: options.alignment,
+    maxWidth: options.maxWidth ?? Infinity,
   });
 }
 
 export function HStack(
-  options: { maxWidth?: number; alignment?: Alignment; inset?: InsetDefinition; } = {},
+  options: {
+    maxWidth?: number;
+    alignment?: Alignment;
+    inset?: InsetDefinition;
+  } = {},
   items: Iterable<ContentItem> | (() => Iterable<ContentItem>),
 ): ContentHStackItem {
   return Object.freeze({
@@ -45,7 +50,7 @@ export function HStack(
 export function ZStack(
   maxWidth = Infinity,
   items: Iterable<ContentItem> | (() => Iterable<ContentItem>),
-  alignment: Alignment = 'center',
+  alignment: Alignment = "center",
 ): ContentZStackItem {
   return Object.freeze({
     type: "zstack",
@@ -62,12 +67,16 @@ export function Spacer(dimension?: number): ContentSpacerItem {
   });
 }
 
-export function Rectangle(width: number, height: number, fillColor: string): ContentRectangleItem {
+export function Rectangle(
+  width: number,
+  height: number,
+  fillColor: string,
+): ContentRectangleItem {
   return Object.freeze({
     type: "rectangle",
     width,
     height,
-    fillColor
+    fillColor,
   });
 }
 
@@ -86,7 +95,7 @@ export function Text(
   text: string,
   font: FontDefinition,
   color: string,
-  multilineTextAlignment: TextAlignment = 'leading',
+  multilineTextAlignment: TextAlignment = "leading",
 ): ContentTextItem {
   return Object.freeze({
     type: "text",
@@ -105,7 +114,9 @@ export async function RemoteImage(source: {
   rounded?: boolean;
 }): Promise<ContentImageItem | null> {
   // TODO: handle errors.
-  const imageBytes = await fetch(source.url).then((res) => res.ok ? res.arrayBuffer() : null);
+  const imageBytes = await fetch(source.url).then((res) =>
+    res.ok ? res.arrayBuffer() : null
+  );
   if (imageBytes === null) {
     return null;
   }
@@ -142,7 +153,11 @@ export function Paths(
   });
 }
 
-export function LinearGradient(colors: ReadonlyArray<string>, startPoint: Point2D, endPoint: Point2D): ContentLinearGradientItem {
+export function LinearGradient(
+  colors: ReadonlyArray<string>,
+  startPoint: Point2D,
+  endPoint: Point2D,
+): ContentLinearGradientItem {
   return Object.freeze({
     type: "linearGradient",
     colors,

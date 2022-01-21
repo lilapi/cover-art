@@ -30,3 +30,15 @@ export function readText(query: ParamsReader) {
     line2Color,
   });
 }
+
+export function readLogo(query: ParamsReader) {
+  let logoImageURL = query.string("logo");
+  const logoImagePosition = query.string("logo-pos", "topLeft");
+  if (logoImageURL === "test1") {
+    logoImageURL = "https://github.com/littleeagleio.png";
+  } else if (logoImageURL === "test2") {
+    logoImageURL = "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
+  }
+
+  return Object.freeze({ logoImageURL, logoImagePosition });
+}

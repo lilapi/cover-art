@@ -9,7 +9,7 @@ import {
   ZStack,
 } from "../graphics/builders";
 import { ParamsReader } from "../primitives/params";
-import { readBackground, readSize, readText } from "./shared";
+import { readBackground, readLogo, readSize, readText } from "./shared";
 
 export async function plainTemplate(
   query: ParamsReader,
@@ -25,6 +25,7 @@ export async function plainTemplate(
     line2Size,
     line2Color,
   } = readText(query);
+  const { logoImageURL, logoImagePosition } = readLogo(query);
 
   let heroImageURL = query.string("img");
   const heroImageSide = query.string("img-pos", "right");
@@ -35,14 +36,6 @@ export async function plainTemplate(
   } else if (heroImageURL === "test2") {
     heroImageURL =
       "https://images.unsplash.com/photo-1557401622-cfc0aa5d146c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1240&q=80";
-  }
-
-  let logoImageURL = query.string("logo");
-  const logoImagePosition = query.string("logo-pos", "topLeft");
-  if (logoImageURL === "test1") {
-    logoImageURL = "https://github.com/littleeagleio.png";
-  } else if (logoImageURL === "test2") {
-    logoImageURL = "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
   }
 
   const heroImageContent = heroImageURL != null
@@ -76,7 +69,7 @@ export async function plainTemplate(
         ...(leftImageContent != null
           ? [leftImageContent, Spacer(30)]
           : [Spacer(inset)]),
-        VStack(undefined, [
+        VStack({ alignment: "leading" }, [
           Text(
             line1,
             interFontOfSize(sizeScaleFactor * line1Size, 700),
