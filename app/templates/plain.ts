@@ -49,7 +49,7 @@ export async function plainTemplate(
   const logoImageContent = logoImageURL != null
     ? await RemoteImage({
       url: logoImageURL,
-      maxWidth: width * 0.1,
+      maxWidth: width * 0.12,
     })
     : null;
 

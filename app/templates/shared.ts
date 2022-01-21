@@ -49,11 +49,12 @@ export function readLogo(query: ParamsReader) {
 export function renderWatermark(
   imageContent: ContentImageItem | null,
   position: string,
+  margin = 20,
 ): Array<ContentItem> {
   if (imageContent == null) return [];
 
   return [VStack(undefined, [
-    Spacer(10),
+    Spacer(margin),
     Spacer(
       position === "bottomLeft" ||
         position === "bottomRight"
@@ -61,7 +62,7 @@ export function renderWatermark(
         : 0,
     ),
     HStack({ alignment: "topLeading" }, [
-      Spacer(10),
+      Spacer(margin),
       Spacer(
         position === "topRight" ||
           position === "bottomRight"
@@ -69,8 +70,8 @@ export function renderWatermark(
           : 0,
       ),
       imageContent,
-      Spacer(10),
+      Spacer(margin),
     ]),
-    Spacer(10),
+    Spacer(margin),
   ])];
 }
