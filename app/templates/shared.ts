@@ -1,3 +1,5 @@
+import type { ContentImageItem, ContentItem } from "~/graphics/base";
+import { HStack, Spacer, VStack } from "~/graphics/builders";
 import { ParamsReader } from "../primitives/params";
 
 export function readSize(query: ParamsReader) {
@@ -37,8 +39,38 @@ export function readLogo(query: ParamsReader) {
   if (logoImageURL === "test1") {
     logoImageURL = "https://github.com/littleeagleio.png";
   } else if (logoImageURL === "test2") {
-    logoImageURL = "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
+    logoImageURL =
+      "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
   }
 
   return Object.freeze({ logoImageURL, logoImagePosition });
+}
+
+export function renderWatermark(
+  imageContent: ContentImageItem | null,
+  position: string,
+): Array<ContentItem> {
+  if (imageContent == null) return [];
+
+  return [VStack(undefined, [
+    Spacer(10),
+    Spacer(
+      position === "bottomLeft" ||
+        position === "bottomRight"
+        ? undefined
+        : 0,
+    ),
+    HStack({ alignment: "topLeading" }, [
+      Spacer(10),
+      Spacer(
+        position === "topRight" ||
+          position === "bottomRight"
+          ? undefined
+          : 0,
+      ),
+      imageContent,
+      Spacer(10),
+    ]),
+    Spacer(10),
+  ])];
 }

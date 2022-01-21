@@ -10,7 +10,7 @@ import {
   ZStack,
 } from "~/graphics/builders";
 import { ParamsReader } from "~/primitives/params";
-import { readBackground, readSize, readText } from "./shared";
+import { readBackground, readLogo, readSize, readText, renderWatermark } from "./shared";
 import { toArray } from "~/primitives/iterables";
 
 export async function overlayTemplate(
@@ -28,6 +28,7 @@ export async function overlayTemplate(
     line2Size,
     line2Color,
   } = readText(query);
+  const { logoImageURL, logoImagePosition } = readLogo(query);
   let heroImageURL = query.string("img");
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
 
@@ -52,6 +53,13 @@ export async function overlayTemplate(
       url: heroImageURL,
       grow: true,
       maxWidth: Infinity,
+    })
+    : null;
+
+  const logoImageContent = logoImageURL != null
+    ? await RemoteImage({
+      url: logoImageURL,
+      maxWidth: width * 0.1,
     })
     : null;
 
@@ -108,6 +116,7 @@ export async function overlayTemplate(
         Spacer(),
         Spacer(10 * sizeScaleFactor),
       ]),
+      ...renderWatermark(logoImageContent, logoImagePosition),
     ], "center"),
   };
 }

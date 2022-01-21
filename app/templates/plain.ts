@@ -9,7 +9,7 @@ import {
   ZStack,
 } from "../graphics/builders";
 import { ParamsReader } from "../primitives/params";
-import { readBackground, readLogo, readSize, readText } from "./shared";
+import { readBackground, readLogo, readSize, readText, renderWatermark } from "./shared";
 
 export async function plainTemplate(
   query: ParamsReader,
@@ -85,29 +85,7 @@ export async function plainTemplate(
           ? [Spacer(), Spacer(10), rightImageContent]
           : [Spacer()]),
       ]),
-      ...(logoImageContent != null
-        ? [VStack(undefined, [
-          Spacer(10),
-          Spacer(
-            logoImagePosition === "bottomLeft" ||
-              logoImagePosition === "bottomRight"
-              ? undefined
-              : 0,
-          ),
-          HStack({ alignment: "topLeading" }, [
-            Spacer(10),
-            Spacer(
-              logoImagePosition === "topRight" ||
-                logoImagePosition === "bottomRight"
-                ? undefined
-                : 0,
-            ),
-            logoImageContent,
-            Spacer(10),
-          ]),
-          Spacer(10),
-        ])]
-        : []),
+      ...renderWatermark(logoImageContent, logoImagePosition),
     ]),
   };
 }
