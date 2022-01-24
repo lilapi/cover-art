@@ -1,5 +1,5 @@
 import { bitsy } from "itsybitsy";
-import { Alignment, ContentImageItem, ContentItem, ContentTextItem, InsetDefinition, LayoutBounds, LayoutItem, LayoutTextItem, LayoutTextLine, ContentVStackItem } from "./base";
+import { Alignment, ContentImageItem, ContentItem, ContentTextItem, InsetDefinition, LayoutBounds, LayoutItem, LayoutTextItem, LayoutTextLine, ContentVStackItem, ContentZStackItem, ContentHStackItem } from "./base";
 import { groupByHighestToLowest, mapping, max, sum, sumBy, toArray, toArrayWithResult } from "../primitives/iterables";
 import { RenderingFactory } from "./renderingFactory";
 
@@ -213,7 +213,7 @@ export function* layoutHStackItems(
     return Object.freeze([currentX, minY] as const);
   }
 
-  return yield* layoutContentItemsUsing((x, _y) => x, next, sizes, content, alignment, {
+  return yield* layoutContentItemsUsing((x, _y) => x, next, sizes, content, alignment, 'hstack', {
     measure,
     minX: x,
     minY,
@@ -235,7 +235,7 @@ export function* layoutVStackItems(
     return Object.freeze([minX, currentY] as const);
   }
 
-  return yield* layoutContentItemsUsing((_x, y) => y, next, sizes, content, alignment, {
+  return yield* layoutContentItemsUsing((_x, y) => y, next, sizes, content, alignment, 'vstack', {
     measure,
     minX,
     minY,
@@ -265,7 +265,7 @@ export function* layoutZStackItems(
   // }));
   // return yield* alignItemsCenterY(items);
 
-  return yield* layoutContentItemsUsing(Math.min, next, sizes, content, alignment, {
+  return yield* layoutContentItemsUsing(Math.min, next, sizes, content, alignment, 'zstack', {
     measure,
     minX,
     minY,
@@ -280,6 +280,7 @@ function* layoutContentItemsUsing(
   sizes: readonly (readonly [number, number])[],
   content: Array<ContentItem>,
   alignment: Alignment,
+  parentType: ContentHStackItem['type'] | ContentVStackItem['type'] | ContentZStackItem['type'],
   { measure, minX, minY, maxY, factory }: { measure: number; minX: number; minY: number; maxY: number; factory: RenderingFactory }
 ): Generator<LayoutItem, { minX: number; maxX: number; minY: number; maxY: number }, never> {
   const viewportWidth = measure;
@@ -333,14 +334,14 @@ function* layoutContentItemsUsing(
         continue loop;
       }
       case "image": {
-
-        // Enable this to center vertically:
-        // const offsetY = ((maxY - minY) - height) / 2;
         let offsetY = 0;
 
-        if (alignment === 'center' || alignment === 'leading' || alignment === 'trailing') {
+        // FIXME: This is a hack and should be done in a better way.
+        if (parentType === 'zstack' && (alignment === 'center' || alignment === 'leading' || alignment === 'trailing')) {
           offsetY = ((maxY - minY) - height) / 2;
         }
+
+        console.log("Produced image", width, height);
 
         yield Object.freeze({
           type: "image",
@@ -430,7 +431,7 @@ function* layoutContentItemsUsing(
           measure: rowMeasure,
           x: currentX + valueForInset(item.inset, 'l'),
           minY: currentY + valueForInset(item.inset, 't'),
-          maxY,
+          maxY, // TODO: use valueForInset(item.inset, 'r')
           factory
         }));
 
@@ -477,8 +478,16 @@ function* layoutContentItemsUsing(
           maxY,
           factory
         }));
-        const bounds = measureBoundsOfItems(items);
-        yield Object.freeze({ type: "stack", items, ...bounds } as const);
+        // const bounds = measureBoundsOfItems(items);
+
+        let itemsToReturn = items;
+        const { result: bounds, array: yAlignedItems } = toArrayWithResult(alignItemsCenterY.bind(null, items));
+        // Center items vertically.
+        if (item.alignment === 'leading' || item.alignment === 'center' || item.alignment === 'trailing') {
+          itemsToReturn = yAlignedItems;
+        }
+
+        yield Object.freeze({ type: "stack", items: itemsToReturn, ...bounds } as const);
         [currentX, currentY] = next(() => bounds.maxX, () => bounds.maxY);
         continue loop;
       }

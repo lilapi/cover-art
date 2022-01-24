@@ -30,7 +30,7 @@ export async function messageTemplate(
     line2Weight,
     line2Color,
   } = readText(query);
-  const { logoImageURL, logoImagePosition } = readLogo(query);
+  const { logoImageURL, logoImagePosition } = readLogo(query, "aboveText");
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
 
   const logoImageContent = logoImageURL != null
@@ -56,6 +56,7 @@ export async function messageTemplate(
         Spacer(),
         VStack(undefined, [
           Spacer(),
+          ...(logoImageContent != null && logoImagePosition === "aboveText" ? [logoImageContent] : []),
           Text(
             line1,
             interFontOfSize(sizeScaleFactor * line1Size, line1Weight),

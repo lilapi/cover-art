@@ -37,9 +37,9 @@ export function readText(query: ParamsReader) {
   });
 }
 
-export function readLogo(query: ParamsReader) {
+export function readLogo(query: ParamsReader, fallback = "topLeading") {
   let logoImageURL = query.string("logo");
-  const logoImagePosition = query.string("logo-pos", "topLeft");
+  const logoImagePosition = query.string("logo-pos", fallback);
   if (logoImageURL === "test1") {
     logoImageURL = "https://github.com/littleeagleio.png";
   } else if (logoImageURL === "test2") {
@@ -55,7 +55,8 @@ export function renderWatermark(
   position: string,
   margin = 20,
 ): Array<ContentItem> {
-  if (imageContent == null) return [];
+  if (imageContent === null) return [];
+  if (position === "aboveText") return [];
 
   return [VStack(undefined, [
     Spacer(margin),
