@@ -34,7 +34,7 @@ export async function messageTemplate(
   const logoImageContent = logoImageURL != null
     ? await RemoteImage({
       url: logoImageURL,
-      maxWidth: logoImagePosition === "aboveText" ? width * 0.18 : width * 0.12,
+      maxWidth: logoImagePosition === "aboveText" ? width * 0.27 : width * 0.12,
     })
     : null;
 
