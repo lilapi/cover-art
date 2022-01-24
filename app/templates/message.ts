@@ -2,7 +2,6 @@ import type { RenderContentOptions } from "~/graphics/render";
 import {
   HStack,
   interFontOfSize,
-  LinearGradient,
   RemoteImage,
   Spacer,
   Text,
@@ -11,7 +10,6 @@ import {
 } from "~/graphics/builders";
 import { ParamsReader } from "~/primitives/params";
 import { readBackground, readLogo, readSize, readText, renderWatermark } from "./shared";
-import { toArray } from "~/primitives/iterables";
 
 export async function messageTemplate(
   query: ParamsReader,
