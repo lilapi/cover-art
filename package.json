@@ -5,7 +5,7 @@
   "license": "",
   "scripts": {
     "build": "remix build && BUILD_API=1 remix build",
-    "dev": "remix dev",
+    "dev": "PORT=3400 remix dev",
     "postinstall": "remix setup node",
     "deploy": "fly deploy --remote-only",
     "start": "remix-serve build"
