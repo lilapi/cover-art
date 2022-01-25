@@ -32,6 +32,7 @@ export interface ContentImageItem {
   readonly image: Image;
   readonly grow: boolean; // Scales up to fit, maybe I’ll find a better name.
   readonly maxWidth?: number;
+  readonly maxHeight?: number;
   readonly rounded: boolean;
 }
 export interface ContentRectangleItem {

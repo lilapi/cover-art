@@ -130,6 +130,7 @@ export async function RemoteImage(source: {
     image,
     grow: source.grow ?? false,
     maxWidth: source.maxWidth,
+    maxHeight: source.maxHeight,
     rounded: source.rounded ?? false,
   });
 }

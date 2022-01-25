@@ -45,6 +45,9 @@ export function readLogo(query: ParamsReader, fallback = "topLeading") {
   } else if (logoImageURL === "test2") {
     logoImageURL =
       "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
+  } else if (logoImageURL === "test3") {
+    // logoImageURL = "https://cdn.littleeagle.io/1/asset/0615d576e8e6c5c7bd6c3da2f284e220";
+    logoImageURL = "https://landen.imgix.net/bj8ou9gm4tyq/assets/eq72fq7h.png?w=1000";
   }
 
   return Object.freeze({ logoImageURL, logoImagePosition });

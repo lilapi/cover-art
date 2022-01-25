@@ -191,7 +191,8 @@ function sizeImageWithin(item: ContentImageItem, proposedSize: readonly [number,
   const actualWidth = item.image.naturalWidth;
   const actualHeight = item.image.naturalHeight;
   const maxWidth = Math.min(item.maxWidth ?? Infinity, item.grow ? Infinity : actualWidth, proposedSize[0]);
-  const scaleFactor = direction === 'both' ? Math.max(maxWidth / actualWidth, proposedSize[1] / actualHeight) : Math.min(maxWidth / actualWidth, proposedSize[1] / actualHeight);
+  const maxHeight = Math.min(item.maxHeight ?? Infinity, item.grow ? Infinity : actualHeight, proposedSize[1]);
+  const scaleFactor = direction === 'both' ? Math.max(maxWidth / actualWidth, maxHeight / actualHeight) : Math.min(maxWidth / actualWidth, maxHeight / actualHeight);
   console.log("sizeImageWithin", proposedSize, direction, scaleFactor, maxWidth / actualWidth, { maxWidth, actualWidth })
   const width = actualWidth * scaleFactor;
   const height = actualHeight * scaleFactor;
