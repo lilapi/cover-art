@@ -15,7 +15,7 @@ export async function messageTemplate(
   query: ParamsReader,
 ): Promise<RenderContentOptions> {
   const inset = 50;
-  const gap = query.int("gap", 0); // TODO: docs
+  const gap = query.int("gap", 0); // TODO: remove
   const { width, height } = readSize(query);
   const { backgroundColor } = readBackground(query);
   const {
