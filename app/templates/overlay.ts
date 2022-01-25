@@ -67,7 +67,6 @@ export async function overlayTemplate(
 
   return {
     debug: query.boolean("debug"),
-    method: query.string("_method"),
     width,
     height,
     centerY: false,

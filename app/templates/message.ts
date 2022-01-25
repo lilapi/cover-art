@@ -41,7 +41,6 @@ export async function messageTemplate(
 
   return {
     debug: query.boolean("debug"),
-    method: query.string("_method"),
     width,
     height,
     centerY: false,
