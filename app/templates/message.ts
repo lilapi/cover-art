@@ -14,8 +14,6 @@ import { readBackground, readLogo, readSize, readText, renderWatermark } from ".
 export async function messageTemplate(
   query: ParamsReader,
 ): Promise<RenderContentOptions> {
-  const inset = 50;
-  const gap = query.int("gap", 0); // TODO: remove
   const { width, height } = readSize(query);
   const { backgroundColor } = readBackground(query);
   const {
@@ -63,7 +61,7 @@ export async function messageTemplate(
           ),
           ...(line2 !== ""
             ? [
-              Spacer(gap),
+              Spacer(sizeScaleFactor * (line1Size + line2Size) * 0.05),
               Text(
                 line2,
                 interFontOfSize(sizeScaleFactor * line2Size, line2Weight),
