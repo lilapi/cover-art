@@ -280,7 +280,7 @@ function* layoutContentItemsUsing(
   next: (x: (x: number) => number, y: (y: number) => number) => readonly [number, number],
   sizes: readonly (readonly [number, number])[],
   content: Array<ContentItem>,
-  alignment: Alignment,
+  parentAlignment: Alignment,
   parentType: ContentHStackItem['type'] | ContentVStackItem['type'] | ContentZStackItem['type'],
   { measure, minX, minY, maxY, factory }: { measure: number; minX: number; minY: number; maxY: number; factory: RenderingFactory }
 ): Generator<LayoutItem, { minX: number; maxX: number; minY: number; maxY: number }, never> {
@@ -338,7 +338,7 @@ function* layoutContentItemsUsing(
         let offsetY = 0;
 
         // FIXME: This is a hack and should be done in a better way.
-        if (parentType === 'zstack' && (alignment === 'center' || alignment === 'leading' || alignment === 'trailing')) {
+        if (parentType === 'zstack' && (parentAlignment === 'center' || parentAlignment === 'leading' || parentAlignment === 'trailing')) {
           offsetY = ((maxY - minY) - height) / 2;
         }
 
@@ -426,7 +426,7 @@ function* layoutContentItemsUsing(
         console.log("row method A", item.inset);
         const rowMeasure = Math.max(0, Math.min(measure, item.maxWidth ?? Infinity) - valueForInset(item.inset, 'l') - valueForInset(item.inset, 'r'));
 
-        const localAlignment = item.alignment ?? alignment;
+        const localAlignment = item.alignment ?? parentAlignment;
         const { array: items, result: { minX, maxX } } = toArrayWithResult(layoutHStackItems.bind(null, item.items, {
           alignment: localAlignment,
           measure: rowMeasure,
@@ -448,8 +448,9 @@ function* layoutContentItemsUsing(
         continue loop;
       }
       case "vstack": {
+        const localAlignment = item.alignment ?? parentAlignment;
         const items = toArray(layoutVStackItems(item.items, {
-          alignment,
+          alignment: localAlignment,
           measure: width,
           minX: currentX,
           minY: currentY,
@@ -457,7 +458,7 @@ function* layoutContentItemsUsing(
           factory
         }));
 
-        if (alignment === 'center') {
+        if (localAlignment === 'center') {
           const { result: bounds, array: laidOutItems } = toArrayWithResult(alignItemsCenterX.bind(null, items));
           console.log("CENTERD", laidOutItems);
           yield Object.freeze({ type: "stack", items: laidOutItems, ...bounds } as const);

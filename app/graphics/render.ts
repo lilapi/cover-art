@@ -59,7 +59,7 @@ export async function renderContent({
       factory,
     }));
 
-    // TODO: we should align base on alignment, not these flags.
+    // TODO: we should align based on alignment, not these flags.
     if (centerY) {
       layoutItems = Array.from(layoutItemsCenterY(h, layoutItems));
     }
@@ -76,7 +76,7 @@ export async function renderContent({
       factory,
     }));
 
-    // TODO: we should align base on alignment, not these flags.
+    // TODO: we should align based on alignment, not these flags.
     if (centerY) {
       layoutItems = Array.from(layoutItemsCenterY(h, layoutItems));
     }

@@ -37,7 +37,7 @@ export function readText(query: ParamsReader) {
   });
 }
 
-export function readLogo(query: ParamsReader, fallback = "topLeading") {
+export function readLogo(query: ParamsReader, fallback = "topLeft") {
   let logoImageURL = query.string("logo");
   const logoImagePosition = query.string("logo-pos", fallback);
   if (logoImageURL === "test1") {

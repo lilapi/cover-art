@@ -46,7 +46,7 @@ export async function messageTemplate(
     insetX: 0,
     insetY: 0,
     backgroundColor,
-    content: ZStack(width, [
+    content: ZStack([
       HStack({}, [
         Spacer(10 * sizeScaleFactor),
         Spacer(),

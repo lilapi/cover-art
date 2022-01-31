@@ -73,7 +73,7 @@ export interface ContentZStackItem {
   readonly type: "zstack";
   readonly items: Array<ContentItem>;
   readonly alignment: Alignment;
-  readonly maxWidth?: number;
+  // readonly maxWidth?: number;
 }
 export type ContentItem =
   | ContentTextItem

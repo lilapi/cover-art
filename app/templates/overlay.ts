@@ -74,7 +74,7 @@ export async function overlayTemplate(
     insetX: 0,
     insetY: 0,
     backgroundColor,
-    content: ZStack(width, [
+    content: ZStack([
       ...(heroImageContent != null ? [heroImageContent] : []),
       LinearGradient(
         toArray(function* () {

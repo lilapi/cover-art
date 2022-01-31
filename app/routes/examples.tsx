@@ -11,6 +11,16 @@ export default function Examples() {
         ]
       })} />
       <img src={buildPath({
+        template: 'plain',
+        width: 1200,
+        height: 630,
+        text: [
+          { text: 'First', size: 32, weight: 700, color: 'white' },
+          { text: 'Second line', size: 32, weight: 700, color: 'white' },
+        ],
+        'logoURL': 'test1'
+      })} />
+      <img src={buildPath({
         template: 'message',
         width: 1200,
         height: 630,

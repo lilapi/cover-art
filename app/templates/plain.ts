@@ -27,7 +27,7 @@ export async function plainTemplate(
     line2Weight,
     line2Color,
   } = readText(query);
-  const { logoImageURL, logoImagePosition } = readLogo(query);
+  const { logoImageURL, logoImagePosition } = readLogo(query, "topRight");
 
   let heroImageURL = query.string("img");
   const heroImageSide = query.string("img-pos", "right");
@@ -66,7 +66,7 @@ export async function plainTemplate(
     insetX: 0,
     insetY: 0,
     backgroundColor,
-    content: ZStack(undefined, [
+    content: ZStack([
       HStack({ inset: { l: 0, r: 0, t: 0, b: 0 } }, [
         ...(leftImageContent != null
           ? [leftImageContent, Spacer(30)]

@@ -48,7 +48,6 @@ export function HStack(
 }
 
 export function ZStack(
-  maxWidth = Infinity,
   items: Iterable<ContentItem> | (() => Iterable<ContentItem>),
   alignment: Alignment = "center",
 ): ContentZStackItem {
@@ -56,7 +55,7 @@ export function ZStack(
     type: "zstack",
     items: toArray(items),
     alignment,
-    maxWidth,
+    // maxWidth,
   });
 }
 
