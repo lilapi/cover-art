@@ -426,9 +426,9 @@ function* layoutContentItemsUsing(
         console.log("row method A", item.inset);
         const rowMeasure = Math.max(0, Math.min(measure, item.maxWidth ?? Infinity) - valueForInset(item.inset, 'l') - valueForInset(item.inset, 'r'));
 
-        const localAlignment = item.alignment ?? parentAlignment;
+        const alignment = item.alignment ?? parentAlignment;
         const { array: items, result: { minX, maxX } } = toArrayWithResult(layoutHStackItems.bind(null, item.items, {
-          alignment: localAlignment,
+          alignment,
           measure: rowMeasure,
           x: currentX + valueForInset(item.inset, 'l'),
           minY: currentY + valueForInset(item.inset, 't'),
@@ -439,7 +439,7 @@ function* layoutContentItemsUsing(
         let itemsToReturn = items;
         const { result: bounds, array: yAlignedItems } = toArrayWithResult(alignItemsCenterY.bind(null, items));
         // Center items vertically.
-        if (localAlignment === 'leading' || localAlignment === 'center' || localAlignment === 'trailing') {
+        if (alignment === 'leading' || alignment === 'center' || alignment === 'trailing') {
           itemsToReturn = yAlignedItems;
         }
 
@@ -448,9 +448,9 @@ function* layoutContentItemsUsing(
         continue loop;
       }
       case "vstack": {
-        const localAlignment = item.alignment ?? parentAlignment;
+        const alignment = item.alignment ?? parentAlignment;
         const items = toArray(layoutVStackItems(item.items, {
-          alignment: localAlignment,
+          alignment,
           measure: width,
           minX: currentX,
           minY: currentY,
@@ -458,7 +458,7 @@ function* layoutContentItemsUsing(
           factory
         }));
 
-        if (localAlignment === 'center') {
+        if (alignment === 'center') {
           const { result: bounds, array: laidOutItems } = toArrayWithResult(alignItemsCenterX.bind(null, items));
           console.log("CENTERD", laidOutItems);
           yield Object.freeze({ type: "stack", items: laidOutItems, ...bounds } as const);
