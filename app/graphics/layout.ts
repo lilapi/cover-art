@@ -625,7 +625,6 @@ export function* layoutItemsCenterY(height: number, items: Array<LayoutItem>) {
 
   for (const item of items) {
     if (item.type === "text") {
-      console.log("minY", item.minY, offsetY);
       yield {
         ...item,
         minY: item.minY + offsetY,
