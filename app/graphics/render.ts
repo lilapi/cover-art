@@ -1,8 +1,20 @@
-import type { ContentHStackItem, ContentVStackItem, ContentZStackItem, LayoutItem } from "./base";
+import type {
+  ContentHStackItem,
+  ContentVStackItem,
+  ContentZStackItem,
+  LayoutItem,
+} from "./base";
 import { importCanvas } from "./deps";
 import { drawItemBounds, drawItemsIntoContext2D } from "./drawing";
 import { inter400Font, inter700Font } from "./fonts";
-import { cleanUpLayoutItem, layoutHStackItems, layoutItemsCenterX, layoutItemsCenterY, layoutVStackItems, layoutZStackItems } from "./layout";
+import {
+  cleanUpLayoutItem,
+  layoutHStackItems,
+  layoutItemsCenterX,
+  layoutItemsCenterY,
+  layoutVStackItems,
+  layoutZStackItems,
+} from "./layout";
 import { makeRenderingFactory } from "./renderingFactory";
 
 export interface RenderContentOptions {
@@ -14,21 +26,22 @@ export interface RenderContentOptions {
   insetY: number;
   backgroundColor?: string;
   content: ContentVStackItem | ContentHStackItem | ContentZStackItem;
-  method?: "a" | "b" | string;
   debug?: boolean;
 }
-export async function renderContent({
-  width: w,
-  height: h,
-  centerY,
-  centerX,
-  insetX,
-  insetY,
-  backgroundColor = "#eee",
-  content,
-  method = "a",
-  debug = false,
-}: RenderContentOptions): Promise<Uint8Array> {
+export async function renderContent(
+  {
+    width: w,
+    height: h,
+    centerY,
+    centerX,
+    insetX,
+    insetY,
+    backgroundColor = "#eee",
+    content,
+    debug = false,
+  }: RenderContentOptions,
+  format: { type: "png" } | { type: "jpeg"; quality: number },
+): Promise<Uint8Array> {
   const canvasImports = await importCanvas();
   const { createCanvas, GlobalFonts } = canvasImports;
 
@@ -112,15 +125,25 @@ export async function renderContent({
 
   console.log("render content: drew items");
 
-  console.time("convert to PNG");
-  const pngDataBuffer = await canvas.encode("png");
-  const pngData = new Uint8Array(pngDataBuffer.buffer);
+  if (format.type === "png") {
+    console.time("convert to PNG");
+    const pngDataBuffer = await canvas.encode("png");
+    const pngData = new Uint8Array(pngDataBuffer.buffer);
+    console.timeEnd("convert to PNG");
+    factory.clear();
 
-  console.timeEnd("convert to PNG");
-  factory.clear();
-  console.log("render content: dispose");
+    console.timeEnd("renderContent()");
+    return pngData;
+  } else if (format.type === "jpeg") {
+    console.time("convert to JPEG");
+    const jpegDataBuffer = await canvas.encode("jpeg", format.quality * 100);
+    const jpegData = new Uint8Array(jpegDataBuffer.buffer);
+    console.timeEnd("convert to JPEG");
+    factory.clear();
 
-  console.timeEnd("renderContent()");
-
-  return pngData;
+    console.timeEnd("renderContent()");
+    return jpegData;
+  } else {
+    throw new Error(`Unknown format`);
+  }
 }

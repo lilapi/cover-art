@@ -9,7 +9,8 @@ export default function Examples() {
           { text: 'First', size: 32, weight: 700, color: 'white' },
           { text: 'Second line', size: 32, weight: 700, color: 'white' },
         ]
-      })} />
+      }, { type: "png" })} />
+
       <img src={buildPath({
         template: 'plain',
         width: 1200,
@@ -19,7 +20,41 @@ export default function Examples() {
           { text: 'Second line', size: 32, weight: 700, color: 'white' },
         ],
         'logoURL': 'test1'
-      })} />
+      }, { type: "png" })} />
+      <img src={buildPath({
+        template: 'plain',
+        width: 1200,
+        height: 630,
+        text: [
+          { text: 'First', size: 32, weight: 700, color: 'white' },
+          { text: 'Second line', size: 32, weight: 700, color: 'white' },
+        ],
+        'logoURL': 'test1'
+      }, { type: "jpeg", quality: 0.8 })} />
+
+      <img src={buildPath({
+        template: 'plain',
+        width: 1200,
+        height: 630,
+        imageURL: 'test1',
+        text: [
+          { text: 'First', size: 32, weight: 700, color: 'white' },
+          { text: 'Second line', size: 32, weight: 700, color: 'white' },
+        ],
+        'logoURL': 'test1'
+      }, { type: "png" })} />
+      <img src={buildPath({
+        template: 'plain',
+        width: 1200,
+        height: 630,
+        imageURL: 'test1',
+        text: [
+          { text: 'First', size: 32, weight: 700, color: 'white' },
+          { text: 'Second line', size: 32, weight: 700, color: 'white' },
+        ],
+        'logoURL': 'test1'
+      }, { type: "jpeg", quality: 0.8 })} />
+
       <img src={buildPath({
         template: 'message',
         width: 1200,
@@ -28,7 +63,7 @@ export default function Examples() {
           { text: 'First', size: 32, weight: 700, color: 'white' },
           { text: 'Second line', size: 32, weight: 700, color: 'white' },
         ]
-      })} />
+      }, { type: "png" })} />
       <img src={buildPath({
         template: 'overlay',
         width: 1200,
@@ -37,7 +72,7 @@ export default function Examples() {
           { text: 'First', size: 32, weight: 700, color: 'white' },
           { text: 'Second line', size: 32, weight: 700, color: 'white' },
         ]
-      })} />
+      }, { type: "png" })} />
     </div>
   );
 }
@@ -57,6 +92,7 @@ export interface TemplateOptions {
 
 export function buildPath(
   options: TemplateOptions,
+  format: { type: "png" } | { type: "jpeg"; quality: number },
 ) {
   const searchParams = new URLSearchParams();
   for (const [index, line] of options.text.entries()) {
@@ -105,6 +141,12 @@ export function buildPath(
     if (typeof options.logoPosition === 'string' && options.logoPosition.trim() !== '') {
       searchParams.set('logo-pos', options.logoPosition);
     }
+  }
+
+  if (format.type === "png") {
+    searchParams.set('format', 'png');
+  } else {
+    searchParams.set('format', 'jpeg');
   }
 
   return `/1/${options.template}?${searchParams}`;
