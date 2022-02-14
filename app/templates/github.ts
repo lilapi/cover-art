@@ -27,7 +27,7 @@ export async function githubTemplate(
 
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
   const githubUsername = query.string("username", "littleeagleio");
-  const displayName = query.string("displayName", `@${githubUsername}`);
+  const displayName = query.string("display-name", `@${githubUsername}`);
   const websiteText = query.string("website");
   const githubAvatarURL = `https://github.com/${githubUsername}.png`;
   const authorColor = query.string("authorColor", "#fffa");
