@@ -11,6 +11,7 @@ import { ParamsReader } from "~/primitives/params";
 import { readBackground, readSize, readText } from "./shared";
 
 export async function githubTemplate(
+  githubUsername: string,
   query: ParamsReader,
 ): Promise<RenderContentOptions> {
   const { width, height } = readSize(query);
@@ -26,8 +27,7 @@ export async function githubTemplate(
   } = readText(query);
 
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
-  const githubUsername = query.string("username", "littleeagleio");
-  const displayName = query.string("display-name", `@${githubUsername}`);
+  const displayName = query.string("author-name", `@${githubUsername}`);
   const websiteText = query.string("website");
   const githubAvatarURL = `https://github.com/${githubUsername}.png`;
   const authorColor = query.string("author-color", "#fffa");
