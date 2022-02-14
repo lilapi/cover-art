@@ -59,11 +59,11 @@ export async function npmDownloadsTemplate(
     debug: query.boolean("debug"),
     content: HStack({ inset: { l: 0, r: 0, t: 0, b: 0 } }, [
       Spacer(inset),
-      VStack(undefined, [
+      VStack({ alignment: 'center' }, [
         Spacer(inset),
         Text(
           `${nf.format(lastWeekData.downloads)} downloads`,
-          interFontOfSize(sizeScaleFactor * 36, 700),
+          interFontOfSize(sizeScaleFactor * 32, 700),
           'white',
         ),
         Spacer(12),
@@ -74,7 +74,7 @@ export async function npmDownloadsTemplate(
         ),
         Text(
           packageName,
-          interFontOfSize(sizeScaleFactor * 36, 700),
+          interFontOfSize(sizeScaleFactor * 32, 700),
           'white',
         ),
         Spacer(),
