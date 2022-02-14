@@ -30,7 +30,7 @@ export async function githubTemplate(
   const displayName = query.string("display-name", `@${githubUsername}`);
   const websiteText = query.string("website");
   const githubAvatarURL = `https://github.com/${githubUsername}.png`;
-  const authorColor = query.string("authorColor", "#fffa");
+  const authorColor = query.string("author-color", "#fffa");
 
   let heroImageURL = query.string("img");
   const heroImageSide = query.string("img-pos", "right");
