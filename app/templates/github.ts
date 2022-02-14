@@ -27,6 +27,7 @@ export async function githubTemplate(
 
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
   const githubUsername = query.string("username", "littleeagleio");
+  const displayName = query.string("displayName", `@${githubUsername}`);
   const websiteText = query.string("website");
   const githubAvatarURL = `https://github.com/${githubUsername}.png`;
   const authorColor = query.string("authorColor", "#fffa");
@@ -97,7 +98,7 @@ export async function githubTemplate(
           Spacer(50),
           VStack(undefined, [
             Text(
-              `@${githubUsername}`,
+              displayName,
               interFontOfSize(sizeScaleFactor * 16, 400),
               authorColor,
             ),
