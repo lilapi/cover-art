@@ -20,7 +20,7 @@ export async function npmDownloadsTemplate(
   packageName: string,
   query: ParamsReader,
 ): Promise<RenderContentOptions> {
-  const period = query.string('period', 'last-month');
+  const period = query.string('period', 'last-week');
   const { width, height } = readSize(query);
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
   const inset = 50;
