@@ -11,7 +11,7 @@ import {
   ZStack,
 } from "~/graphics/builders";
 import { ParamsReader } from "~/primitives/params";
-import { readBackground, readLogo, readSize, readText, renderWatermark } from "./shared";
+import { readBackground, readLogo, readPositionedLogo, readSize, readText, renderWatermark } from "./shared";
 import { toArray } from "~/primitives/iterables";
 
 export async function overlayLeftTemplate(
@@ -20,6 +20,7 @@ export async function overlayLeftTemplate(
   const inset = 50;
   const gap = query.int("gap", 0); // TODO: docs
   const { width, height } = readSize(query);
+  const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
   const { backgroundColor } = readBackground(query, "none");
   const {
     line1,
@@ -31,10 +32,10 @@ export async function overlayLeftTemplate(
     line2Weight,
     line2Color,
   } = readText(query);
-  const { logoImageURL, logoImagePosition } = readLogo(query);
-  let heroImageURL = query.string("img");
-  const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
+  const topLeftLogoImageURL = readPositionedLogo(query, 'tl');
+  const topRightLogoImageURL = readPositionedLogo(query, 'tr');
 
+  let heroImageURL = query.string("img");
   if (heroImageURL === "test1") {
     heroImageURL =
       "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&q=80";
@@ -59,9 +60,16 @@ export async function overlayLeftTemplate(
     })
     : null;
 
-  const logoImageContent = logoImageURL != null
+  const topLeftLogoImageContent = topLeftLogoImageURL != null
     ? await RemoteImage({
-      url: logoImageURL,
+      url: topLeftLogoImageURL,
+      maxWidth: width * 0.24,
+      maxHeight: height * 0.24,
+    })
+    : null;
+  const topRightLogoImageContent = topRightLogoImageURL != null
+    ? await RemoteImage({
+      url: topRightLogoImageURL,
       maxWidth: width * 0.24,
       maxHeight: height * 0.24,
     })
@@ -95,6 +103,7 @@ export async function overlayLeftTemplate(
         Spacer(line1Size * sizeScaleFactor * .5),
         VStack({ alignment: 'leading' }, [
           Spacer(),
+          ...(topLeftLogoImageContent == null ? [] : [Spacer(line1Size * sizeScaleFactor * .5)]),
           Text(
             line1,
             interFontOfSize(sizeScaleFactor * line1Size, line1Weight),
@@ -117,7 +126,8 @@ export async function overlayLeftTemplate(
         ]),
         Spacer(),
       ]),
-      ...renderWatermark(logoImageContent, logoImagePosition),
+      ...renderWatermark(topLeftLogoImageContent, 'topLeft', line1Size * sizeScaleFactor * .5),
+      ...renderWatermark(topRightLogoImageContent, 'topRight', line1Size * sizeScaleFactor * .5),
     ], 'center'),
   };
 }

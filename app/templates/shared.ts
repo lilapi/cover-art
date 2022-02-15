@@ -53,6 +53,20 @@ export function readLogo(query: ParamsReader, fallback = "topLeft") {
   return Object.freeze({ logoImageURL, logoImagePosition });
 }
 
+export function readPositionedLogo(query: ParamsReader, position: 'tl' | 'tr'): string | null {
+  let logoImageURL = query.string(`logo-${position}`);
+  if (logoImageURL === "test1") {
+    logoImageURL = "https://github.com/littleeagleio.png";
+  } else if (logoImageURL === "test2") {
+    logoImageURL =
+      "https://raw.githubusercontent.com/google/material-design-icons/master/png/maps/pedal_bike/materialiconstwotone/48dp/2x/twotone_pedal_bike_black_48dp.png";
+  } else if (logoImageURL === "test3") {
+    logoImageURL = "https://landen.imgix.net/bj8ou9gm4tyq/assets/eq72fq7h.png?w=1000";
+  }
+
+  return logoImageURL ?? null;
+}
+
 export function renderWatermark(
   imageContent: ContentImageItem | null,
   position: string,
