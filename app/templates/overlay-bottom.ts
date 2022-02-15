@@ -13,7 +13,7 @@ import { ParamsReader } from "~/primitives/params";
 import { readBackground, readLogo, readSize, readText, renderWatermark } from "./shared";
 import { toArray } from "~/primitives/iterables";
 
-export async function overlayTemplate(
+export async function overlayBottomTemplate(
   query: ParamsReader,
 ): Promise<RenderContentOptions> {
   const inset = 50;

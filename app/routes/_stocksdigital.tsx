@@ -2,6 +2,19 @@ export default function Examples() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem', fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
       <img src={buildPath({
+        template: 'overlay-left',
+        width: 1200,
+        height: 630,
+        backgroundColor: "#19C36B",
+        text: [
+          { text: 'What We Expect from VUL in 2022', size: 32, weight: 700, color: '#ffffff' },
+        ],
+        imageURL: 'https://sdcms-prod.s3.amazonaws.com/original_images/default-ni-image.jpeg',
+        logoURL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',
+        logoPosition: 'topRight',
+      }, { type: "png" })} />
+
+      <img src={buildPath({
         template: 'overlay',
         width: 1200,
         height: 630,
@@ -18,7 +31,7 @@ export default function Examples() {
 }
 
 export interface TemplateOptions {
-  template: 'plain' | 'overlay' | 'message';
+  template: 'plain' | 'overlay' | 'overlay-left' | 'message';
   width?: number;
   height?: number;
   text: Array<{ text: string; size: number | `${number}`; weight: number | `${number}`; color: string }>;
