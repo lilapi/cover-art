@@ -22,6 +22,14 @@ export interface ContentTextItem {
   readonly font: FontDefinition;
   readonly color: string;
   readonly multilineTextAlignment: TextAlignment;
+  readonly shadow?: ContentTextShadow;
+}
+export interface ContentTextShadow {
+  readonly type: "textShadow";
+  readonly color: string;
+  readonly blur: number;
+  readonly offsetX: number;
+  readonly offsetY: number;
 }
 export interface ContentSpacerItem {
   readonly type: "spacer";

@@ -13,10 +13,19 @@ export function drawItemsIntoContext2D(
     switch (item.type) {
       case "text": {
         for (const line of item.lines) {
+          ctx.save();
           applyFont(ctx, line.font);
           ctx.fillStyle = item.sourceContent.color;
+
+          if (item.sourceContent.shadow !== undefined) {
+            ctx.shadowBlur = item.sourceContent.shadow.blur;
+            ctx.shadowColor = item.sourceContent.shadow.color;
+            ctx.shadowOffsetX = item.sourceContent.shadow.offsetX;
+            ctx.shadowOffsetY = item.sourceContent.shadow.offsetY;
+          }
           // ctx.fillText(line.text, line.minX, line.baselineY);
           ctx.fillText(line.text, line.minX, line.maxY);
+          ctx.restore();
         }
         continue loop;
       }

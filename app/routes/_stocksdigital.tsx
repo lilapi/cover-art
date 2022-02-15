@@ -7,7 +7,7 @@ export default function Examples() {
         height: 630,
         backgroundColor: "#19C36B",
         text: [
-          { text: 'What We Expect from VUL in 2022', size: 32, weight: 700, color: '#ffffff' },
+          { text: 'What We Expect from VUL in 2022', size: 48, weight: 700, color: '#ffffff' },
         ],
         imageURL: 'https://sdcms-prod.s3.amazonaws.com/original_images/default-ni-image.jpeg',
         logoURL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',

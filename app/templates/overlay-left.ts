@@ -6,6 +6,7 @@ import {
   RemoteImage,
   Spacer,
   Text,
+  TextShadow,
   VStack,
   ZStack,
 } from "~/graphics/builders";
@@ -19,7 +20,7 @@ export async function overlayLeftTemplate(
   const inset = 50;
   const gap = query.int("gap", 0); // TODO: docs
   const { width, height } = readSize(query);
-  const { backgroundColor } = readBackground(query, "#000000");
+  const { backgroundColor } = readBackground(query, "none");
   const {
     line1,
     line1Size,
@@ -74,10 +75,10 @@ export async function overlayLeftTemplate(
     centerX: false,
     insetX: 0,
     insetY: 0,
-    backgroundColor,
+    backgroundColor: backgroundColor === 'none' ? '#000' : backgroundColor,
     content: ZStack([
       ...(heroImageContent != null ? [heroImageContent] : []),
-      LinearGradient(
+      ...(backgroundColor === 'none' ? [] : [LinearGradient(
         toArray(function* () {
           const quality = 15;
           for (let i = 0; i <= quality; i++) {
@@ -89,7 +90,7 @@ export async function overlayLeftTemplate(
         }),
         { x: 0.6, y: 0 },
         { x: 0.4, y: 0 },
-      ),
+      )]),
       HStack({ maxWidth: width * .75, alignment: 'leading' }, [
         Spacer(line1Size * sizeScaleFactor * .5),
         VStack({ alignment: 'leading' }, [
@@ -99,6 +100,7 @@ export async function overlayLeftTemplate(
             interFontOfSize(sizeScaleFactor * line1Size, line1Weight),
             line1Color,
             'leading',
+            TextShadow(16, '#00000066', 8, 8),
           ),
           ...(line2 !== ""
             ? [

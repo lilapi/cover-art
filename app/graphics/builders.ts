@@ -9,6 +9,7 @@ import {
   ContentShapeItem,
   ContentSpacerItem,
   ContentTextItem,
+  ContentTextShadow,
   ContentVStackItem,
   ContentZStackItem,
   FontDefinition,
@@ -95,6 +96,7 @@ export function Text(
   font: FontDefinition,
   color: string,
   multilineTextAlignment: TextAlignment = "leading",
+  shadow?: ContentTextShadow
 ): ContentTextItem {
   return Object.freeze({
     type: "text",
@@ -102,6 +104,22 @@ export function Text(
     font,
     color,
     multilineTextAlignment,
+    shadow,
+  });
+}
+
+export function TextShadow(
+  blur: number,
+  color: string,
+  offsetX: number,
+  offsetY: number,
+): ContentTextShadow {
+  return Object.freeze({
+    type: "textShadow",
+    color,
+    blur,
+    offsetX,
+    offsetY,
   });
 }
 
