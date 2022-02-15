@@ -61,7 +61,8 @@ export async function overlayTemplate(
   const logoImageContent = logoImageURL != null
     ? await RemoteImage({
       url: logoImageURL,
-      maxWidth: width * 0.12,
+      maxWidth: width * 0.24,
+      maxHeight: height * 0.24,
     })
     : null;
 
