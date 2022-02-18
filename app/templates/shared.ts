@@ -53,8 +53,8 @@ export function readLogo(query: ParamsReader, fallback = "topLeft") {
   return Object.freeze({ logoImageURL, logoImagePosition });
 }
 
-export function readPositionedLogo(query: ParamsReader, position: 'tl' | 'tr'): string | null {
-  let logoImageURL = query.string(`logo-${position}`);
+export function readLogoN(query: ParamsReader, suffix: '' | '2'): string | null {
+  let logoImageURL = query.string(`logo${suffix}`);
   if (logoImageURL === "test1") {
     logoImageURL = "https://github.com/littleeagleio.png";
   } else if (logoImageURL === "test2") {

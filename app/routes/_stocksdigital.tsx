@@ -10,8 +10,8 @@ export default function Examples() {
           { text: 'What We Expect from VUL in 2022', size: 48, weight: 700, color: '#ffffff' },
         ],
         imageURL: 'https://sdcms-prod.s3.amazonaws.com/original_images/default-ni-image.jpeg',
-        topLeftLogoURL: 'test3',
-        topRightLogoURL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',
+        logoURL: 'test3',
+        logo2URL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',
       }, { type: "png" })} />
 
       <img src={buildPath({
@@ -22,8 +22,8 @@ export default function Examples() {
           { text: 'What We Expect from VUL in 2022', size: 48, weight: 700, color: '#ffffff' },
         ],
         imageURL: 'https://sdcms-prod.s3.amazonaws.com/original_images/default-ni-image.jpeg',
-        topLeftLogoURL: 'test3',
-        topRightLogoURL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',
+        logoURL: 'test3',
+        logo2URL: 'https://sdcms-prod.s3.ap-southeast-2.amazonaws.com/original_images/ni-01.png',
       }, { type: "png" })} />
 
       <img src={buildPath({
@@ -53,8 +53,7 @@ export interface TemplateOptions {
   imagePosition?: 'left' | 'right';
   logoURL?: string;
   logoPosition?: 'topLeft' | 'bottomLeft' | 'topRight' | 'bottomRight';
-  topLeftLogoURL?: string;
-  topRightLogoURL?: string;
+  logo2URL?: string;
 }
 
 export function buildPath(
@@ -109,11 +108,8 @@ export function buildPath(
       searchParams.set('logo-pos', options.logoPosition);
     }
   }
-  if (typeof options.topLeftLogoURL === 'string' && options.topLeftLogoURL.trim() !== '') {
-    searchParams.set('logo-tl', options.topLeftLogoURL);
-  }
-  if (typeof options.topRightLogoURL === 'string' && options.topRightLogoURL.trim() !== '') {
-    searchParams.set('logo-tr', options.topRightLogoURL);
+  if (typeof options.logo2URL === 'string' && options.logo2URL.trim() !== '') {
+    searchParams.set('logo2', options.logo2URL);
   }
 
   if (format.type === "png") {

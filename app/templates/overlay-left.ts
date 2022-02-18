@@ -11,7 +11,7 @@ import {
   ZStack,
 } from "~/graphics/builders";
 import { ParamsReader } from "~/primitives/params";
-import { readBackground, readLogo, readPositionedLogo, readSize, readText, renderWatermark } from "./shared";
+import { readBackground, readLogo, readLogoN, readSize, readText, renderWatermark } from "./shared";
 import { toArray } from "~/primitives/iterables";
 
 export async function overlayLeftTemplate(
@@ -32,8 +32,8 @@ export async function overlayLeftTemplate(
     line2Weight,
     line2Color,
   } = readText(query);
-  const topLeftLogoImageURL = readPositionedLogo(query, 'tl');
-  const topRightLogoImageURL = readPositionedLogo(query, 'tr');
+  const topLeftLogoImageURL = readLogoN(query, '');
+  const topRightLogoImageURL = readLogoN(query, '2');
 
   let heroImageURL = query.string("img");
   if (heroImageURL === "test1") {
