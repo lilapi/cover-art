@@ -119,6 +119,7 @@ export async function overlayLeftTemplate(
                 interFontOfSize(sizeScaleFactor * line2Size, line2Weight),
                 line2Color,
                 'leading',
+                TextShadow(16, '#00000066', 8, 8),
               ),
             ]
             : []),
