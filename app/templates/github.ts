@@ -108,7 +108,7 @@ export async function githubTemplate(
           : []),
         Spacer(),
         Spacer(height / 12),
-        HStack({ maxWidth: width / 2, alignment: "leading" }, [
+        HStack({ alignment: "leading" }, [
           ...(avatarImageContent != null ? [avatarImageContent] : []),
           Spacer(50),
           VStack(undefined, [
