@@ -24,6 +24,10 @@ export async function githubTemplate(
     line2,
     line2Size,
     line2Color,
+    line3,
+    line3Size,
+    line3Weight,
+    line3Color,
   } = readText(query);
 
   const sizeScaleFactor = Math.sqrt((width * height) / (400 * 400));
@@ -91,6 +95,17 @@ export async function githubTemplate(
           interFontOfSize(sizeScaleFactor * line2Size, 700),
           line2Color,
         ),
+        ...(line3 !== ""
+          ? [
+            Spacer(12),
+            Text(
+              line3,
+              interFontOfSize(sizeScaleFactor * line3Size, line3Weight),
+              line3Color,
+              'leading',
+            ),
+          ]
+          : []),
         Spacer(),
         Spacer(height / 12),
         HStack({ maxWidth: width / 2, alignment: "leading" }, [

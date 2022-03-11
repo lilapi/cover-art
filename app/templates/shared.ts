@@ -20,10 +20,16 @@ export function readText(query: ParamsReader) {
   const line1Size = query.int("t1-size", 36);
   const line1Weight = query.int("t1-weight", 700);
   const line1Color = query.string("t1-color", "white");
+
   const line2 = query.string("t2", "");
   const line2Size = query.int("t2-size", 24);
   const line2Weight = query.int("t2-weight", 700);
   const line2Color = query.string("t2-color", "white");
+
+  const line3 = query.string("t3", "");
+  const line3Size = query.int("t3-size", 24);
+  const line3Weight = query.int("t3-weight", 700);
+  const line3Color = query.string("t3-color", "white");
 
   return Object.freeze({
     line1,
@@ -34,6 +40,10 @@ export function readText(query: ParamsReader) {
     line2Size,
     line2Weight,
     line2Color,
+    line3,
+    line3Size,
+    line3Weight,
+    line3Color,
   });
 }
 
