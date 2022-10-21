@@ -18,24 +18,24 @@ import {
 import { makeRenderingFactory } from "./renderingFactory";
 
 export interface RenderContentOptions {
+  content: ContentVStackItem | ContentHStackItem | ContentZStackItem;
   width: number;
   height: number;
-  centerY: boolean;
-  centerX: boolean;
-  insetX: number;
-  insetY: number;
+  centerY?: boolean;
+  centerX?: boolean;
+  insetX?: number;
+  insetY?: number;
   backgroundColor?: string;
-  content: ContentVStackItem | ContentHStackItem | ContentZStackItem;
   debug?: boolean;
 }
 export async function renderContent(
   {
     width: w,
     height: h,
-    centerY,
-    centerX,
-    insetX,
-    insetY,
+    centerY = false,
+    centerX = false,
+    insetX = 0,
+    insetY = 0,
     backgroundColor = "#eee",
     content,
     debug = false,
