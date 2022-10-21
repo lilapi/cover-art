@@ -2,6 +2,8 @@
 
 Generate images on the fly.
 
+## Layouts
+
 ## Development
 
 
@@ -10,5 +12,5 @@ npm ci
 npm run dev
 ```
 
-Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
+Open up [http://localhost:8002](http://localhost:8002) and you should be ready to go!
 
